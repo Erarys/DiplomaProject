@@ -9,7 +9,7 @@ load_dotenv()
 
 def generate_speach(message: str) -> None:
     client = OpenAI()
-    speech_file_path = Path(__file__).parent / "speech.mp3"
+    speech_file_path = Path(__file__).parent / "speech_answer.mp3"
     response = client.audio.speech.create(
         model="tts-1",
         voice="alloy",
@@ -25,5 +25,5 @@ def generate_speach(message: str) -> None:
     while pygame.mixer.music.get_busy():
         time.sleep(1)
 
-
+    pygame.mixer.quit()
 

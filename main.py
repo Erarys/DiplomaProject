@@ -4,10 +4,14 @@ from voice_ai.recognize import recognize_audio
 from voice_ai.speach import generate_speach
 
 
-if __name__ == '__main__':
-    audio = record_audio()
-    message = recognize_audio(audio)
-    print(message)
 
-    answer = generate_answer(message)
-    generate_speach(answer)
+if __name__ == '__main__':
+    while True:
+        audio = record_audio()
+
+        message = recognize_audio(audio)
+        print("User:", message)
+
+        answer = generate_answer(message)
+        print("AI:", answer)
+        generate_speach(answer)

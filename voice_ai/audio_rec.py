@@ -5,6 +5,8 @@ import pyaudio
 
 
 def record_audio():
+    activity = []
+
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
@@ -30,16 +32,22 @@ def record_audio():
         audio_data = np.frombuffer(data, dtype=np.int16)
         frames.append(data)
 
+        if  np.max(np.abs(audio_data)) > THRESHOLD:
+            activity.append(np.max(np.abs(audio_data)))
+
+
         # Проверяем, превышает ли амплитуда порог
         if np.max(np.abs(audio_data)) > THRESHOLD:
             silence_counter = 0  # Если речь, сбрасываем счётчик тишины
         else:
             silence_counter += 1
 
-        # Если длительность тишины превышает порог, завершаем запись
-        if silence_counter > (RATE / CHUNK) * SILENCE_DURATION:
-            print("Recording stopped due to silence.")
-            break
+        print("activity ----", len(activity))
+        print("second", silence_counter)
+        if len(activity) > (RATE / CHUNK) * SILENCE_DURATION:
+            if silence_counter > (RATE / CHUNK) * SILENCE_DURATION:
+                break
+
 
     stream.stop_stream()
     stream.close()
@@ -55,6 +63,15 @@ def record_audio():
 
     wav_buffer.seek(0)
 
+    with wave.open("file.wav", 'wb') as wf:
+        wf.setnchannels(CHANNELS)
+        wf.setsampwidth(p.get_sample_size(FORMAT))
+        wf.setframerate(RATE)
+        wf.writeframes(b''.join(frames))
+
+    wav_buffer.seek(0)
+
     # Назначаем имя файла
     wav_buffer.name = "speech.wav"
+
     return wav_buffer
