@@ -18,6 +18,7 @@ def generate_answer(message: str) -> str:
     return text
 
 
+
 if __name__ == "__main__":
     result = generate_answer("Привет, как дела?:")
     print(result)
