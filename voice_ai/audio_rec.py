@@ -63,7 +63,7 @@ def record_audio():
 
     wav_buffer.seek(0)
 
-    with wave.open("file.wav", 'wb') as wf:
+    with wave.open("voice_ai/speech.wav", 'wb') as wf:
         wf.setnchannels(CHANNELS)
         wf.setsampwidth(p.get_sample_size(FORMAT))
         wf.setframerate(RATE)
