@@ -4,7 +4,12 @@ import os
 
 load_dotenv()
 
-message_ls = []
+message_ls = [
+    {
+        "role": "system",
+        "content": "Вы получаете текст и эмоцию человека"
+    }
+]
 
 
 def generate_answer(message: str) -> str:
