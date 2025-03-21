@@ -20,10 +20,21 @@
     const stopBtn = document.getElementById('stopBtn');
 
     // Получаем доступ к камере
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    navigator.mediaDevices.getUserMedia({
+        video: { width: 640, height: 480 },
+        audio: {
+            sampleRate: 48000,
+            channelCount: 2,
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: false
+        }
+    })
       .then(stream => {
         video.srcObject = stream;
-        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder = new MediaRecorder(stream, {
+            mimeType: 'video/webm; codecs=vp9,opus'
+        });
 
         mediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) {
