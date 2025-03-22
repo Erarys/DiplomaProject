@@ -12,9 +12,9 @@ from fer import FER
 import ffmpeg
 import os
 
-from intelegence.simple import generate_answer
-from voice_ai.recognize import recognize_audio
-from voice_ai.speach import generate_speach
+from speech.services.intelegence import generate_answer
+from speech.services.speech_recognition import recognize_audio
+from speech.services.speech import generate_speach
 
 
 def record_page(request):
@@ -75,6 +75,3 @@ def extract_audio_from_video(video_path):
     )
     return io.BytesIO(out)
 
-if __name__ == '__main__':
-    audio = extract_audio_from_video(r'recorded_video.webm')
-    print(recognize_audio(audio))
