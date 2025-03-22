@@ -5,6 +5,22 @@ const video = document.getElementById('video');
 const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 // Получаем доступ к камере
 navigator.mediaDevices.getUserMedia({
     video: {width: 640, height: 480},
@@ -36,8 +52,13 @@ navigator.mediaDevices.getUserMedia({
             const formData = new FormData();
             formData.append('video', blob, 'recorded_video.webm');
 
-            fetch('http://127.0.0.1:8000/upload-photo/', {
+            const csrftoken = getCookie('csrftoken');
+
+            fetch('http://127.0.0.1:8000/', {
                 method: 'POST',
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                },
                 body: formData
             }).then(response => response.json())
                 .then(data => console.log(data));

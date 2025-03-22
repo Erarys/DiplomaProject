@@ -5,17 +5,19 @@
 {% endblock %}
 
 {% block components %}
-{#    <link rel="stylesheet" href="{% static 'speech/style.css' %}">#}
+    {#    <link rel="stylesheet" href="{% static 'speech/style.css' %}">#}
 {% endblock %}
 
 {% block body %}
+    <section>
+        {% csrf_token %}
+        <h1>Запись видео с камеры</h1>
+        <video id="video" width="640" height="480" autoplay muted></video>
+        <br>
+        <button id="startBtn">Начать запись</button>
+        <button id="stopBtn">Остановить и отправить</button>
 
-    <h1>Запись видео с камеры</h1>
-    <video id="video" width="640" height="480" autoplay></video>
-    <br>
-    <button id="startBtn">Начать запись</button>
-    <button id="stopBtn">Остановить и отправить</button>
-
-    {% load static %}
-    <script src="{% static 'speech/js/recording_script.js' %}"></script>
+        {% load static %}
+        <script src="{% static 'speech/js/recording_script.js' %}"></script>
+    </section>
 {% endblock %}
