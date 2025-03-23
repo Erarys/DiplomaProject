@@ -11,6 +11,7 @@ from speech.services.speech_recognition import recognize_audio
 from speech.services.speech import generate_speach
 from speech.services.emotion_recognition import detect_emotion_from_video
 from speech.services.separate_video_audio import extract_audio_from_video
+from speech.services.voice_emotion import voice_emotion_recognition
 
 class SpeechRecognition(View):
     def get(self, request):
@@ -30,8 +31,10 @@ class SpeechRecognition(View):
                 emotion = detect_emotion_from_video(file_path)
                 audio_bytes = extract_audio_from_video(file_path)
                 text = recognize_audio(audio_bytes)
-                message = text + f" Эмоция говорящего: {emotion}"
+                voice_emotion = voice_emotion_recognition(audio_bytes)
+                message = text + f" Эмоция лица: {emotion}, Эмоций голоса {voice_emotion}"
                 print(message)
+
                 answer = generate_answer(message)
                 generate_speach(answer)
 
@@ -40,3 +43,7 @@ class SpeechRecognition(View):
 
         return JsonResponse({'status': 'invalid method'}, status=405)
 
+
+if __name__ == "__main__":
+    data = extract_audio_from_video("../media/recorded_video.webm")
+    print(voice_emotion_recognition(data))
