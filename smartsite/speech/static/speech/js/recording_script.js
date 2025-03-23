@@ -68,10 +68,12 @@ navigator.mediaDevices.getUserMedia({
 
 startBtn.onclick = () => {
     mediaRecorder.start();
+    startBtn.style.backgroundColor = "red";
     console.log('Запись началась');
 };
 
 stopBtn.onclick = () => {
     mediaRecorder.stop();
+    startBtn.style.backgroundColor = "white";
     console.log('Запись остановлена и отправляется');
 };

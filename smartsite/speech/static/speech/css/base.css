@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #4c4a4a;
+}
+
+section {
+    background-color: #ffffff;
+    max-width: 700px;
+    min-height: 40vh;
+}

@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,6 +11,7 @@
             Base title
         {% endblock %}
     </title>
+    <link rel="stylesheet" href="{% static 'speech/css/base.css' %}">
     {% block components %}
     {% endblock %}
 </head>

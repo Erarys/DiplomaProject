@@ -1,11 +1,12 @@
 {% extends 'speech/base.html' %}
+{% load static %}
 
 {% block title %}
     Общение с AI
 {% endblock %}
 
 {% block components %}
-    {#    <link rel="stylesheet" href="{% static 'speech/style.css' %}">#}
+        <link rel="stylesheet" href="{% static 'speech/css/speech-record-style.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -17,7 +18,6 @@
         <button id="startBtn">Начать запись</button>
         <button id="stopBtn">Остановить и отправить</button>
 
-        {% load static %}
         <script src="{% static 'speech/js/recording_script.js' %}"></script>
     </section>
 {% endblock %}
