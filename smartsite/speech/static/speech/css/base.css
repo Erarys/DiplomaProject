@@ -11,6 +11,9 @@ body {
 }
 
 section {
+    display: flex;
+    justify-content: center; /* по горизонтали */
+    align-items: center;
     background-color: rgb(0, 0, 0, 0.7);
     width: 90vw;
     height: 100vh;
