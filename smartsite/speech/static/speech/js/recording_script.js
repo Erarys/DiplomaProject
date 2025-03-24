@@ -4,7 +4,8 @@ let recordedChunks = [];
 const video = document.getElementById('video');
 const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
-
+const isFaceEmotionBtn = document.querySelector('.face-emotion-checkbox input')
+const isVoiceEmotionBtn = document.querySelector('.voice-emotion-checkbox input')
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -51,6 +52,12 @@ navigator.mediaDevices.getUserMedia({
             // Отправляем видео на сервер
             const formData = new FormData();
             formData.append('video', blob, 'recorded_video.webm');
+            // Получаем данные из checkbox кнопок
+            const process_mode = {
+                is_voice_emotion: isVoiceEmotionBtn.checked,
+                is_face_emotion: isFaceEmotionBtn.checked,
+            }
+            formData.append('process_mode', JSON.stringify(process_mode))
 
             const csrftoken = getCookie('csrftoken');
 
