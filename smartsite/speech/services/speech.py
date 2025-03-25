@@ -3,13 +3,16 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import pygame
 import time
+import os
+
+from smartsite import settings
 
 load_dotenv()
 
 
 def generate_speach(message: str) -> None:
     client = OpenAI()
-    speech_file_path = Path(__file__).parent / "speech_answer.mp3"
+    speech_file_path = os.path.join(settings.MEDIA_ROOT, "speech_answer.mp3")
     response = client.audio.speech.create(
         model="tts-1",
         voice="alloy",
@@ -17,13 +20,15 @@ def generate_speach(message: str) -> None:
     )
     response.stream_to_file(speech_file_path)
 
+    return speech_file_path
+
     # Инициализируем pygame и воспроизводим аудио
-    pygame.mixer.init()
-    pygame.mixer.music.load(speech_file_path)
-    pygame.mixer.music.play()
+    # pygame.mixer.init()
+    # pygame.mixer.music.load(speech_file_path)
+    # pygame.mixer.music.play()
+    #
+    # while pygame.mixer.music.get_busy():
+    #     time.sleep(1)
 
-    while pygame.mixer.music.get_busy():
-        time.sleep(1)
-
-    pygame.mixer.quit()
+    # pygame.mixer.quit()
 

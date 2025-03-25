@@ -3,7 +3,6 @@ from django.views import View
 from django.http import JsonResponse
 from django.conf import settings
 
-
 import os
 import json
 from speech.services.intelegence import generate_answer
@@ -13,13 +12,17 @@ from speech.services.emotion_recognition import detect_emotion_from_video
 from speech.services.separate_video_audio import extract_audio_from_video
 from speech.services.voice_emotion import voice_emotion_recognition
 
+
 class SpeechRecognition(View):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.emotion = "Не передано"
+        self.voice_emotion = "Не передано"
+
     def get(self, request):
         return render(request, 'speech/speech-record.html')
 
     def post(self, request):
-        emotion = "Не передано"
-        voice_emotion = "Не передано"
 
         if request.method == 'POST':
             video_file = request.FILES.get('video')
@@ -34,22 +37,21 @@ class SpeechRecognition(View):
                         destination.write(chunk)
 
                 if process_mode["is_face_emotion"]:
-                    emotion = detect_emotion_from_video(file_path)
+                    self.emotion = detect_emotion_from_video(file_path)
 
                 audio_bytes = extract_audio_from_video(file_path)
                 text = recognize_audio(audio_bytes)
                 if process_mode["is_voice_emotion"]:
-                    voice_emotion = voice_emotion_recognition(audio_bytes)
+                    self.voice_emotion = voice_emotion_recognition(audio_bytes)
 
-                message = text + f" Эмоция лица: {emotion}, Эмоций голоса {voice_emotion}"
+                message = text + f" Эмоция лица: {self.emotion}, Эмоций голоса {self.voice_emotion}"
                 print(message)
 
                 answer = generate_answer(message)
-                generate_speach(answer)
+                audio_file_path = generate_speach(answer)
+                audio_url = request.build_absolute_uri(settings.MEDIA_URL + os.path.basename(audio_file_path))
+                return JsonResponse({'audio_url': audio_url})
 
-                return JsonResponse({'status': 'success'})
             return JsonResponse({'status': 'no file'}, status=400)
 
         return JsonResponse({'status': 'invalid method'}, status=405)
-
-

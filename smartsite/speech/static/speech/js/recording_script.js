@@ -6,6 +6,7 @@ const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
 const isFaceEmotionBtn = document.querySelector('.face-emotion-checkbox input')
 const isVoiceEmotionBtn = document.querySelector('.voice-emotion-checkbox input')
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -67,8 +68,20 @@ navigator.mediaDevices.getUserMedia({
                     "X-CSRFToken": csrftoken,
                 },
                 body: formData
-            }).then(response => response.json())
-                .then(data => console.log(data));
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Проверяем ответ сервера
+
+                    if (data.audio_url) {
+                        const audio = new Audio(data.audio_url);
+                        audio.play();
+                    } else {
+                        console.error('Audio URL не получен:', data);
+                    }
+                })
+                .catch(error => console.error('Ошибка при отправке видео:', error));
+
         };
     })
     .catch(err => console.error('Ошибка доступа к камере: ', err));
@@ -81,6 +94,6 @@ startBtn.onclick = () => {
 
 stopBtn.onclick = () => {
     mediaRecorder.stop();
-    startBtn.style.backgroundColor = "white";
+    startBtn.style.backgroundColor = "#04AA6D";
     console.log('Запись остановлена и отправляется');
 };

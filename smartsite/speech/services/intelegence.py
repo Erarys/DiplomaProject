@@ -14,11 +14,12 @@ message_ls = [
 
 def generate_answer(message: str) -> str:
     client = OpenAI()
-    print(message_ls)
+
     message_ls.append({
         "role": "user",
         "content": message,
     })
+
     response = client.chat.completions.create(
         messages=message_ls,
         model="gpt-4o-mini",
