@@ -47,7 +47,7 @@ class SpeechRecognition(View):
                 message = text + f" Эмоция лица: {self.emotion}, Эмоций голоса {self.voice_emotion}"
                 print(message)
 
-                answer = generate_answer(message)
+                answer = generate_answer(message, self.emotion, self.voice_emotion)
                 audio_file_path = generate_speach(answer)
                 audio_url = request.build_absolute_uri(settings.MEDIA_URL + os.path.basename(audio_file_path))
                 return JsonResponse({'audio_url': audio_url})
