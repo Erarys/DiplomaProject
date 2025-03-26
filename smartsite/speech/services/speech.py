@@ -1,8 +1,8 @@
-from pathlib import Path
+# from pathlib import Path
 from openai import OpenAI
 from dotenv import load_dotenv
-import pygame
-import time
+# import pygame
+# import time
 import os
 
 from smartsite import settings
