@@ -12,7 +12,7 @@ load_dotenv()
 
 def generate_speach(message: str) -> None:
     client = OpenAI()
-    speech_file_path = os.path.join(settings.MEDIA_ROOT, "speech_answer.mp3")
+    speech_file_path = os.path.join(settings.MEDIA_ROOT, "speech_answer.wav")
     response = client.audio.speech.create(
         model="tts-1",
         voice="alloy",
