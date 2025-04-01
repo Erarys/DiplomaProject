@@ -13,6 +13,13 @@ from speech.services.separate_video_audio import extract_audio_from_video
 from speech.services.voice_emotion import voice_emotion_recognition
 
 
+class ContentView(View):
+    def get(self, request):
+        return render(request, 'speech/content.html')
+
+    def post(self, request):
+        pass
+
 class SpeechRecognition(View):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
