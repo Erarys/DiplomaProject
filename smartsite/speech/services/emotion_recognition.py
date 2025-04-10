@@ -1,5 +1,15 @@
 import os
 from collections import Counter
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"Время выполнения распознаваний эмоций лица {func.__name__}: {end_time - start_time:.6f} сек")
+        return result
+    return wrapper
 
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '1'  # Включает oneDNN
 
@@ -33,7 +43,7 @@ def record_face_emotion(stop_event, result_queue):
     avg_emotion = emotions.most_common(1)[0][0]
     result_queue.put(avg_emotion)
 
-
+@timing_decorator
 def detect_emotion_from_video(video_path):
     emotions = []
     cap = cv2.VideoCapture(video_path)

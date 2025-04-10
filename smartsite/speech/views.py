@@ -12,6 +12,15 @@ from speech.services.emotion_recognition import detect_emotion_from_video
 from speech.services.separate_video_audio import extract_audio_from_video
 from speech.services.voice_emotion import voice_emotion_recognition
 
+import time
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"Время выполнения {func.__name__}: {end_time - start_time:.6f} сек")
+        return result
+    return wrapper
 
 class SpeechRecognition(View):
     def __init__(self, **kwargs):
@@ -21,7 +30,7 @@ class SpeechRecognition(View):
 
     def get(self, request):
         return render(request, 'speech/speech-record.html')
-
+    @timing_decorator
     def post(self, request):
 
         if request.method == 'POST':
@@ -37,6 +46,7 @@ class SpeechRecognition(View):
                         destination.write(chunk)
 
                 if process_mode["is_face_emotion"]:
+                    print("Время на распознавание лица")
                     self.emotion = detect_emotion_from_video(file_path)
 
                 audio_bytes = extract_audio_from_video(file_path)
@@ -48,6 +58,7 @@ class SpeechRecognition(View):
                 print(message)
 
                 answer = generate_answer(message, self.emotion, self.voice_emotion)
+                print(answer)
                 audio_file_path = generate_speach(answer)
                 audio_url = request.build_absolute_uri(settings.MEDIA_URL + os.path.basename(audio_file_path))
                 return JsonResponse({'audio_url': audio_url})
