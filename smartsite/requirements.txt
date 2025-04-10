@@ -1,0 +1,10 @@
+Django==5.1.7
+fer==22.5.1
+ffmpeg==1.4
+ffmpeg_python==0.2.0
+openai==1.72.0
+opencv_contrib_python==4.11.0.86
+python-dotenv==1.1.0
+torch==2.6.0
+torchaudio==2.6.0
+transformers==4.50.0
