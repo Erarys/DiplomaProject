@@ -1,0 +1,21 @@
+
+body {
+    display: flex;
+    justify-content: center; /* по горизонтали */
+    align-items: center;     /* по вертикали */
+    height: 100vh;           /* чтобы flex-контейнер растянулся на весь экран */
+    margin: 0;
+    flex-direction: column;
+    /*background-image: url('../img/background.jpg');*/
+    color: black;
+
+}
+
+section {
+    display: flex;
+    justify-content: center; /* по горизонтали */
+    align-items: center;
+    background-color: rgb(0, 0, 0, 0.7);
+    width: 90vw;
+    height: 100vh;
+}
