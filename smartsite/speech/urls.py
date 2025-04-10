@@ -4,5 +4,6 @@ from . import views
 app_name = 'speech'
 
 urlpatterns = [
-    path('', views.SpeechRecognition.as_view(), name='record'),
+    path('content/', views.ContentView.as_view(), name='content'),
+    path('record/', views.SpeechRecognition.as_view(), name='record'),
 ]
